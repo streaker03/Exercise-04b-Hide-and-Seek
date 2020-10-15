@@ -6,10 +6,14 @@ export var speed = 250
 export var looking_speed = 100
 	
 func _physics_process(_delta):
-	#for i in get_slide_count():
-	#	var collision = get_slide_collision(i)
-	#	if collision.collider.name == "Player":
-	#		collision.collider.call("die")
+	var check = true
+	for i in get_slide_count():
+		if check:
+			var collision = get_slide_collision(i)
+			if collision.collider != null:
+				if collision.collider.name == "Player":
+					collision.collider.call("die")
+					check = false
 	if player == null:
 		player = get_node("/root/Game/Player_Container/Player")
 	else:
@@ -19,6 +23,5 @@ func _physics_process(_delta):
 			var velocity = ray.cast_to.normalized()*looking_speed
 			if c.name == "Player":
 				velocity = ray.cast_to.normalized()*speed
-			print(velocity)
 			move_and_slide(velocity, Vector2(0,0))
 
